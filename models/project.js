@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const projectSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -12,8 +12,7 @@ const userSchema = new mongoose.Schema(
     },
     createdBy :{
       type: String,
-      required: true, 
-      createdBy: "user"
+      required: true,
     },
     status: {
        type: String, 
@@ -22,4 +21,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("project", projectSchema);
+module.exports = mongoose.model("Project", projectSchema);

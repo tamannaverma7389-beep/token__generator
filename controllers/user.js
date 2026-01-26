@@ -1,14 +1,8 @@
 const User = require('../models/user');
 
 async function createNewUser(req, res) {
-    const body = req.body;
-    if (
-        !body ||
-        !body.name ||
-        !body.email ||
-        !body.password ||
-        !.["Role", "manager"," user"].includes.body
-        )  {
+    const { name ,email ,password  }= req.body;
+    if (!name || !email || !password || !["Role", "manager"," user"].includes.body )  {
         return res.status(400).json({msg : "All fields are req..."});
     };
     const result = await User.create({
