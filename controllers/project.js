@@ -20,14 +20,14 @@ async function getProjectById(req,res) {
     if(!project) return res.status(404).json({error: "user not found"});
     const token = setUser(project)
     res.cookie("uid",token);
-    return res.json( {status: 'success',  data: data});
+    return res.json( {status: 'success',} ,req.params.id);
 };
 
 async function updateProject(req, res) {
     await project.findByIdAndUpdate(req.params.id , req.body, { new: true });
     const token = setUser()
     res.cookie("uid",token);
-    return res.json( {status: 'success',  data: data});
+    return res.json( {status: 'success'} ,req.params.id,req.body, {new:true});
 };
 async function deleteUser(req, res) {
     await project.findByIdAndDelete(req.params.id);
@@ -39,7 +39,7 @@ async function getProjectByUser(req, res) {
     const getUser = await user.find(request.params.user);
     const token = setUser(getUser)
     res.cookie("uid",token);
-    return res.json( {status: 'success',  data: data});
+    return res.json( {status: 'success'}, req.params.id, user=user.Id);
 };
 
 module.exports =  {

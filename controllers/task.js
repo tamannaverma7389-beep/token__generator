@@ -19,7 +19,7 @@ async function getTaskById(req,res) {
     const taskId = await Task.findById(req.params.id);
     const token = setUser(taskId)
     res.cookie("uid",token);
-    return res.json( {status: 'success', data: data});
+    return res.json( {status: 'success'} ,req.params.id,req.body);
 };
 
 async function updateTask(req, res) {
@@ -32,7 +32,7 @@ async function deleteTask(req, res) {
     await Task.findByIdAndDelete(req.params.id);
     const token = setUser()
     res.cookie("uid",token);
-    return res.json( {status: 'success',  data: data});
+    return res.json( {status: 'success'} , req.params.id);
 };
 async function assignTaskToId(req, res) {
     await Task.findByIdAndUpdate({assignedTo: req.body.userId});

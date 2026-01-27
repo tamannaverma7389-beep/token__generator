@@ -21,13 +21,13 @@ async function updateComment(req, res) {
     const commentUpdate = await Comment.findByIdAndUpdate(req.params.id , req.body, {new: true });
     const token = setUser(commentUpdate)
     res.cookie("uid",token);
-    return res.json( {status: 'success', data: data});
+    return res.json( {status: 'success'},req.params.id,req.body, {new:true});
 };
 async function deleteComment(req, res) {
     const commentDelete = await Comment.findByIdAndDelete(req.params.id);
     const token = setUser(commentDelete)
     res.cookie("uid",token);
-    return res.json( {status: 'success',  data: data});
+    return res.json( {status: 'success'}, req.params.id);
 };
 
 

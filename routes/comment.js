@@ -7,7 +7,7 @@ const {AddCommentToTask,
 
 
 router.get("/:id", getCommentByTaskId);
-router.post("/create", AddCommentToTask);
+router.post("/", AddCommentToTask);
 router.patch("/:id", updateComment);
 router.delete("/:id", deleteComment );
 

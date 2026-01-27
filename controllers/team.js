@@ -15,14 +15,14 @@ async function addMembersToTeam(req ,res) {
     const createTeam =  await Team.findByIdAndUpdate();
     const token = setUser(createTeam)
     res.cookie("uid",token);
-    return res.json( {status: 'success',  data: data});
+    return res.json( {status: 'success', }, req.params.id,req.body, {new:true});
 };
 async function getTeamDetailsId(req,res) {
     const teamDetails = await Team.findById(req.params.id);
     if(!teamDetails) return res.status(404).json({error: "user not found"});
     const token = setUser(teamDetails)
     res.cookie("uid",token);
-    return res.json( {status: 'success', data: data});
+    return res.json( {status: 'success', }, req.params.id,req.body);
 };
 async function removeTeam(req, res) {
     await Team.findByIdAndDelete(req.params.id);
