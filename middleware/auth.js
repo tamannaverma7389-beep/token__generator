@@ -1,13 +1,52 @@
-const fs = require("fs");
+ const { getUser } = require("../service/auth");
+ async function registerUser(req,res,next) {
+    const userUid = req.cookie?.uid;
 
+    if (!userUid) return res.json('/login');
+    const user = getUser(token);
 
-function logReqRes(filename) {
-    return (req, res, next) => {
-    fs.appendFile(filename ,`${Date.now()}: ${req.ip}: ${req.method}: ${req.path}\n` ,(err , data) => {
-        next();
-    });
-    };
+    if(!user) return res.json('/login');
+
+    req.user = user;
+    next();
 }
-module.exports = {
-    logReqRes,
-};
+ async function loginUser(req,res,next) {
+    const userUid = req.cookie?.uid;
+
+    if (!userUid) return res.json('/login');
+    const user = getUser(token);
+
+    if(!user) return res.json('/login');
+
+    req.user = user;
+    next();
+ }    
+ async function getLoggedInUserProfile(req,res,next) {
+    const userUid = req.cookie?.uid;
+
+    if (!userUid) return res.json('/login');
+    const user = getUser(token);
+
+    if(!user) return res.json('/login');
+
+    req.user = user;
+    next();
+ }    
+  async function changepassword(req,res,next) {
+    const userUid = req.cookie?.uid;
+
+    if (!userUid) return res.json('/login');
+    const user = getUser(token);
+
+    if(!user) return res.json('/login');
+
+    req.user = user;
+    next();
+ } 
+
+ module.exports = {
+    registerUser,
+    loginUser,
+    getLoggedInUserProfile,
+    changepassword, 
+ }
