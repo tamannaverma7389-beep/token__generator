@@ -4,7 +4,11 @@ const path = require("path");
 const { connectMongoDb } = require("./connection");
 const routes= require('./routes/index');
 const cookieParser = require("cookie-parser");
-const {logReqRes} = require("./middleware/auth");
+const {authMiddleware,
+     loginController,
+     registerController} = require("./middleware/auth");
+
+
 
 const app = express();
 const PORT = 4000;
@@ -15,8 +19,10 @@ console.log('Mongodb is connected');
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(logReqRes("log.txt"));
 
 app.use("/api", routes);
+app.use("/", authMiddleware,
+     loginController,
+     registerController, routes )
 
 app.listen(PORT, () => console.log(`server started at PORT:${PORT}`));

@@ -14,6 +14,6 @@ router.get("/:id", getProjectById);
 router.post("/", createProject);
 router.patch("/:id", updateProject);
 router.delete("/delete/:id", deleteUser);
-router.get("/:user", getProjectByUser);
+router.get("/user/:id", getProjectByUser);
 
 module.exports = router;

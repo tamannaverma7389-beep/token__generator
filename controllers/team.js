@@ -1,4 +1,6 @@
 const Team = require('../models/team');
+const {v4: uuidv4} = require('uuid')
+const {setUser} = require('../service')
 
 async function createTeam(req, res) {
     const {name, members, projectId} = req.body;
@@ -10,17 +12,23 @@ async function createTeam(req, res) {
     return res.status(201).json({ msg : "success", id:result._id});
 };
 async function addMembersToTeam(req ,res) {
-    const createTeam =  await Team.Add({name ,members,projectId});
-      return res.json(createTeam);
+    const createTeam =  await Team.findByIdAndUpdate();
+    const token = setUser(createTeam)
+    res.cookie("uid",token);
+    return res.json( {status: 'success',  data: data});
 };
 async function getTeamDetailsId(req,res) {
     const teamDetails = await Team.findById(req.params.id);
     if(!teamDetails) return res.status(404).json({error: "user not found"});
-     return res.json(teamDetails);
+    const token = setUser(teamDetails)
+    res.cookie("uid",token);
+    return res.json( {status: 'success', data: data});
 };
 async function removeTeam(req, res) {
-    await remove.findByIdAndDelete(req.params.id);
-    return res.json({status: 'success'});
+    await Team.findByIdAndDelete(req.params.id);
+    const token = setUser()
+    res.cookie("uid",token);
+    return res.json( {status: 'success'});
 };
 
 module.exports =  {

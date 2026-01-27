@@ -7,9 +7,9 @@ const teamSchema = new mongoose.Schema(
       required: true,
     },
     member: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
-      member: "user",
+      ref : "user",
     },
     projectId: {
       type: String,

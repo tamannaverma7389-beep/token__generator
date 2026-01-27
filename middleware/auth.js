@@ -1,52 +1,41 @@
- const { getUser } = require("../service/auth");
- async function registerUser(req,res,next) {
-    const userUid = req.cookie?.uid;
+ const { getUser } = require("../service");
+ async function authMiddleware(req,res,next) {
+    const userUid = req.cookies?.uid;
 
-    if (!userUid) return res.json('/login');
-    const user = getUser(token);
+    if (!userUid) return res.json('/');
+    const user = getUser(userUid);
 
-    if(!user) return res.json('/login');
+    if(!user) return res.json('/');
 
     req.user = user;
     next();
 }
- async function loginUser(req,res,next) {
-    const userUid = req.cookie?.uid;
+ async function loginController(req,res,next) {
+    const userUid = req.cookies?.uid;
 
-    if (!userUid) return res.json('/login');
-    const user = getUser(token);
+    if (!userUid) return res.json('/');
+    const user = getUser(userUid);
 
-    if(!user) return res.json('/login');
-
-    req.user = user;
-    next();
- }    
- async function getLoggedInUserProfile(req,res,next) {
-    const userUid = req.cookie?.uid;
-
-    if (!userUid) return res.json('/login');
-    const user = getUser(token);
-
-    if(!user) return res.json('/login');
+    if(!user) return res.json('/');
 
     req.user = user;
     next();
  }    
-  async function changepassword(req,res,next) {
-    const userUid = req.cookie?.uid;
+ async function registerController(req,res,next) {
+    const userUid = req.cookies?.uid;
 
-    if (!userUid) return res.json('/login');
-    const user = getUser(token);
+    if (!userUid) return res.json('/');
+    const user = getUser(userUid);
 
-    if(!user) return res.json('/login');
+    if(!user) return res.json('/');
 
     req.user = user;
     next();
- } 
+ }    
+
 
  module.exports = {
-    registerUser,
-    loginUser,
-    getLoggedInUserProfile,
-    changepassword, 
+     authMiddleware,
+     loginController,
+     registerController,
  }

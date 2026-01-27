@@ -21,7 +21,7 @@ const taskSchema = new mongoose.Schema(
     status: {
        type: String, 
     },
-    duedate: {
+    dueDate: {
         type: String,
     },
   },

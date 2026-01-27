@@ -13,6 +13,6 @@ router.get("/:id", getUserById);
 router.post("/", createNewUser);
 router.patch("/:id", updateUser);
 router.delete("/:id", deleteUser);
-router.post("/", assignRole);
+router.patch("/:id/role", assignRole);
 
 module.exports = router;

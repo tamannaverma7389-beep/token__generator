@@ -1,4 +1,6 @@
 const Comment = require('../models/comment');
+const {v4: uuidv4} = require('uuid')
+const {setUser} = require('../service')
 
 async function AddCommentToTask(req, res) {
     const {taskId, userId, message} = req.body;
@@ -11,17 +13,21 @@ async function AddCommentToTask(req, res) {
     return res.status(201).json({ msg : "success", id:result._id});
 };
 async function getCommentByTaskId(req,res) {
-    const comments = await task.findById({ taskId:req.params.id});
-     return res.json(comments);
+    const comments = await Comment.findById({ taskId:req.params.id});
+    return res.json( {status: 'success'});
 };
 
 async function updateComment(req, res) {
-    const commentUpdate = await Update.findByIdAndUpdate(req.params.id , req.body, {new: true });
-    return res.json({status: 'success'});
+    const commentUpdate = await Comment.findByIdAndUpdate(req.params.id , req.body, {new: true });
+    const token = setUser(commentUpdate)
+    res.cookie("uid",token);
+    return res.json( {status: 'success', data: data});
 };
 async function deleteComment(req, res) {
-    const commentDelete = await deletes.findByIdAndDelete(req.params.id);
-    return res.json({status: 'success'});
+    const commentDelete = await Comment.findByIdAndDelete(req.params.id);
+    const token = setUser(commentDelete)
+    res.cookie("uid",token);
+    return res.json( {status: 'success',  data: data});
 };
 
 

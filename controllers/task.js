@@ -1,4 +1,6 @@
 const Task = require('../models/task');
+const {v4: uuidv4} = require('uuid')
+const {setUser} = require('../service')
 
 async function createTask(req, res) {
     const {title , description , projectId , assignedTo , status  , dueDate }= req.body;
@@ -7,32 +9,42 @@ async function createTask(req, res) {
     };
     const result = await Task.create({title, description,  projectId, assignedTo, status , dueDate});
     // console.log("result" , result);
-    return res.status(201).json({ msg : "success", id: task._id});
+    return res.status(201).json({ msg : "success", id: result._id});
 };
 async function getAllTask(req ,res) {
     const allTask =  await Task.find();
-      return res.json(allTask);
+    return res.json( {status: 'success'});
 };
 async function getTaskById(req,res) {
     const taskId = await Task.findById(req.params.id);
-    return res.json(taskId);
+    const token = setUser(taskId)
+    res.cookie("uid",token);
+    return res.json( {status: 'success', data: data});
 };
 
 async function updateTask(req, res) {
     await Task.findByIdAndUpdate(req.params.id , req.body, { new: true });
-    return res.json({status: 'success'});
+    const token = setUser()
+    res.cookie("uid",token);
+    return res.json( {status: 'success', data: data});
 };
 async function deleteTask(req, res) {
     await Task.findByIdAndDelete(req.params.id);
-    return res.json({status: 'success'});
+    const token = setUser()
+    res.cookie("uid",token);
+    return res.json( {status: 'success',  data: data});
 };
 async function assignTaskToId(req, res) {
-    const assignTask = await Task.find({assign: result._id});
-    return res.json({status: 'success'});
+    await Task.findByIdAndUpdate({assignedTo: req.body.userId});
+    const token = setUser()
+    res.cookie("uid",token);
+    return res.json( {status: 'success'});
 };
 async function changeTaskStatus(req, res) {
-    const Users = await User.findById(req.params.id , req.body, { new: true });
-    return res.json({status: 'success'});
+    await Task.findById(req.params.id , { status : req.body.status });
+    const token = setUser()
+    res.cookie("uid",token);
+    return res.json( {status: 'success'});
 };
 module.exports =  {
     createTask,
